@@ -1,0 +1,23 @@
+{
+  "name": "@satellite-earth/torrent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@satellite-earth/message": "^1.0.0",
+    "bencode": "2.0.1",
+    "create-torrent": "4.4.1",
+    "ipfs-only-hash": "2.0.1",
+    "parse-torrent": "7.0.1",
+    "sanitize-filename": "1.6.3",
+    "simple-sha1": "3.0.1"
+  },
+  "author": {
+    "name": "Stuart Bowman",
+    "email": "sbowman@satellite.earth"
+  },
+  "license": "ISC"
+}
