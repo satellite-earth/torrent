@@ -1,4 +1,4 @@
-const Message = require('@satellite-earth/dev-message');
+const Message = require('@satellite-earth/message');
 const createTorrent = require('create-torrent');
 const parseTorrent = require('parse-torrent');
 const sanitize = require('sanitize-filename');
