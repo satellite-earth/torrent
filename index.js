@@ -17,7 +17,6 @@ class Torrent extends Message {
 
 			const _signed_ = {};
 			let size, pieces, pieceLength;
-			//let size, sha1, pieceLength;
 
 			for (let s of Object.keys(info)) {
 				
@@ -29,7 +28,6 @@ class Torrent extends Message {
 					_signed_.name = buffer.toString('utf8');
 				} else if (s === 'pieces') {
 					buffer = Buffer.from(v);
-					//sha1 = buffer.toString('hex');
 					pieces = buffer.toString('base64');
 				} else if (s === 'length') {
 					size = parseInt(v);
@@ -209,8 +207,6 @@ class Torrent extends Message {
 		return parseTorrent.toTorrentFile(torrent);
 	}
 
-	/* * * * * * * * * * * * * * * * * * * * */
-
 	// File name
 	get name () {
 
@@ -284,7 +280,6 @@ class Torrent extends Message {
 		if (torrentParams) {
 			return torrentParams.infoHash;
 		}
-		//return this.info ? this.torrentParams.infoHash : undefined;
 	}
 
 	get ipfsHash () { // The ipfs hash of data
