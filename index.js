@@ -88,35 +88,16 @@ class Torrent extends Message {
 		}
 	}
 
-	// Piece size is assigned as power
-	// of 2, ranging from 16348 bytes
-	// (2^14) to 524288 bytes (2^19)
 	static inferPieceLength (n) {
 
-		// NOTE: it seems that webtorrent only works with this peice size
-		// TODO Before modules are published, need to remove this static
-		// method and replace it with a constant.
+		// NOTE: it seems that WebTorrent only works with this piece size—
+		// Future versions may adopt WebTorrent's default chunking strategy
 		return 16384;
-
-		// Test using WebTorrent's logic
-		//return Math.max(16384, 1 << Math.log2(n < 1024 ? 1 : n / 1024) + 0.5 | 0);
-
-		// let p;
-		// for (let x = 14; x <= 19; x++) {
-		// 	p = Math.pow(2, x);
-		// 	if (Math.ceil(n / p) <= 100) {
-		// 		break;
-		// 	}
-		// }
-		// return p;
 	}
 
 	data (data) {
 
 		return new Promise((resolve, reject) => {
-
-			// KEEP WORKING . . . allow webtorrent to set the peice length
-			// to see if this fixes the issue of seeding > 16384
 
 			createTorrent(data, { pieceLength: Torrent.inferPieceLength(data.length || data.size) }, async (err, torrentFile) => {
 				if (err) {
