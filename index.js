@@ -6,6 +6,7 @@ const ipfsHash = require('ipfs-only-hash');
 const sha1 = require('simple-sha1');
 const bencode = require('bencode');
 
+
 class Torrent extends Message {
 
 	constructor (data, options = {}) {
@@ -114,8 +115,15 @@ class Torrent extends Message {
 						// If in browser, check if data is a blob or file and
 						// convert to a buffer so it can be properly hashed
 						if (typeof window !== 'undefined' && data instanceof Blob) {
-							const bytes = await data.arrayBuffer();
+
+							const bytes = await new Promise(resolve => {
+								const fr = new FileReader();
+								fr.onload = () => { resolve(fr.result); };
+								fr.readAsArrayBuffer(data);
+							});
+
 							buffer = Buffer.from(bytes);
+
 						} else {
 							buffer = Buffer.from(data);
 						}
@@ -168,7 +176,6 @@ class Torrent extends Message {
 	// Removes torrent data params. Since this changes
 	// the message payload, reset any existing signature.
 	clearTorrentParams () {
-		//this._signed_.name = undefined;
 		this._signed_.meta = undefined;
 		this.clearSig();
 	}
@@ -233,8 +240,11 @@ class Torrent extends Message {
 
 	get pieces () {
 
+		const dataParams = this.dataParams;
+		if (!dataParams) { return; }
+
 		// Convert from base64 to hex
-		const hex = Buffer.from(this.dataParams.pieces, 'base64').toString('hex');
+		const hex = Buffer.from(dataParams.pieces, 'base64').toString('hex');
 		const arr = [];
 
 		// Deconcatenate the sha1 piece hashes
